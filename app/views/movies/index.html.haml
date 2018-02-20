@@ -4,20 +4,20 @@
   Include:
   - @all_ratings.each do |rating|
     = rating
-    = check_box_tag "ratings[#{rating}]", { id: "ratings_[#{rating}]" }, (@filtered_ratings.include?(rating))? true :  false
+    = check_box_tag "ratings[#{rating}]", { id: "ratings_[#{rating}]" }, (session[:filtered_ratings].include?(rating))? true : false
   = submit_tag 'Refresh', id: "ratings_submit"
 %table#movies
   %thead
     %tr
-      %th{:class => ("hilite" unless (params[:sort] != "title"))}
+      %th{:class => ("hilite" unless (session[:sort] != "title"))}
         = link_to "Movie Title", { sort: "title" }, id:"title_header"
       %th Rating
-      %th{:class => ("hilite" unless (params[:sort] != "release_date"))}
+      %th{:class => ("hilite" unless (session[:sort] != "release_date"))}
         = link_to "Release Date", { sort: "release_date" }, id:"release_date_header"
       %th More Info
   %tbody
-    - @movies.order(params[:sort]).each do |movie|
-      - if (@filtered_ratings.include?(movie.rating))
+    - @movies.order(session[:sort]).each do |movie|
+      - if (session[:filtered_ratings].include?(movie.rating))
         %tr
           %td= movie.title
           %td= movie.rating
